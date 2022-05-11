@@ -3,7 +3,7 @@ public class Board {
     private int height;
     private String[][] tiles;
     private String alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    public Board(int width, int height, int[][] tiles) {
+    public Board(int width, int height) {
         this.width = width;
         this.height = height;
         this.tiles = new String[width][height];
@@ -22,6 +22,17 @@ public class Board {
         int index = (int) (Math.random() * 26);
         return alphabet.substring(index, index+1);
     }
+
+    public void printBoard() {
+        for (int i = 0; i < width; i++) {
+            for (int n = 0; n < height; n++) {
+                System.out.print(tiles[i][n] + "  ");
+            }
+            System.out.println();
+        }
+    }
+
+    public void validateWord()
 
 
 }
