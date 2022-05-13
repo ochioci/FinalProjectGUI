@@ -34,7 +34,7 @@ public class Board {
         }
     }
 
-    public void validateWord(String word) {
+    public boolean validateWord(String word) {
         //takes a word, sees if it can be found within the board
         ArrayList<ArrayList<Integer>> roots = new ArrayList<ArrayList<Integer>>(); //all possible beginnings of word
 
@@ -56,10 +56,10 @@ public class Board {
             temp.get(0).add(roots.get(i).get(0));
             temp.get(0).add(roots.get(i).get(1));
 
-            recursiveValidationHelper(word.substring(0,1), word, temp);
+            if (recursiveValidationHelper(word.substring(0,1), word, temp)) {return true;}
         }
 
-
+        return false;
     }
 
     //recursively attempts to find a given word, returns true if a solution can be found
@@ -75,19 +75,30 @@ public class Board {
         ArrayList<ArrayList<Integer>> nextTilesRaw = getAdjacentTiles(currentRow, currentCol);
         ArrayList<ArrayList<Integer>> nextTiles = new ArrayList<ArrayList<Integer>>();
         //add all tiles from nextTilesRaw not found in usedTiled to nextTiles
+//        System.out.println("next tiles raw: " + nextTilesRaw);
         for (int i = 0; i < nextTilesRaw.size(); i++) {
             boolean passing = true;
 
             for (int n = 0; n < usedTiles.size(); n++) {
-                if (usedTiles.get(n).get(0) == nextTilesRaw.get(i).get(0)) {
-                    if (usedTiles.get(n).get(1) == nextTilesRaw.get(i).get(1))  {}
-                        passing = false;
+                if (usedTiles.get(n).get(0) == nextTilesRaw.get(i).get(0) && usedTiles.get(n).get(1) == nextTilesRaw.get(i).get(1)) {
+
+                    passing = false;
                 }
 
             }
-
+            //tiles[nextTilesRaw.get(i).get(0)][nextTilesRaw.get(i).get(1)].toUpperCase().equals(nextLetter.toUpperCase())
             if (passing) {nextTiles.add(nextTilesRaw.get(i));}
         }
+
+        System.out.println();
+        System.out.println("current location: " + currentRow + ", " + currentCol);
+        System.out.println("current progress: " + progress);
+        System.out.println("adjacent tiles: " + nextTilesRaw);
+        System.out.println("possible next tiles: " + nextTiles);
+        System.out.println();
+
+        //the issue lies in determining all of the next possible tiles! for some reason certain tiles are filtered out when they should not be, causing false negatives
+        //okay apparently the tiles to the left and right in the same row are filtered out for some reason. everything else works as intended
 
         ArrayList<Boolean> results = new ArrayList<Boolean>();
         for (int i = 0; i < nextTiles.size(); i++) {
@@ -95,16 +106,34 @@ public class Board {
             int colCoord = nextTiles.get(i).get(1);
 
             if (tiles[rowCoord][colCoord].equals(nextLetter)) {
-                results.add(recursiveValidationHelper(progress + nextLetter, target, usedTiles)); //TKTKTK MAKE SURE TO FIRST COPY USEDTILES AND ADD THIS TILE TO IT
+
+
+                ArrayList<ArrayList<Integer>> usedTilesCopy = new ArrayList<ArrayList<Integer>>();
+                for (int n = 0; n < usedTiles.size(); n++) {
+                    usedTilesCopy.add(usedTiles.get(n));
+                }
+                usedTilesCopy.add(nextTiles.get(i));
+
+
+                results.add(recursiveValidationHelper(progress + nextLetter, target, usedTilesCopy));
             }
         }
+//        System.out.println();
+//        System.out.println("target: " + target);
+//        System.out.println("progress: " + progress);
+//        System.out.println("next tiles: " + nextTiles);
+//        System.out.println();
 
-        //if all results are false, return false!
+        for (int i = 0; i < results.size(); i++) {
+            if (results.get(i)) {
+                return true;
+            }
+        }
+        return false;
+        //if no results are true, return false!
 
 
-        //recursively call this function for every adjacent tile that is not already used and check to see if the next letter can be found among them
-        //if there are no matches, return false
-        return false; //temp
+
     }
 
 
@@ -126,8 +155,9 @@ public class Board {
 
         //wc
         if (col > 0) {
-            sw.add(row);
-            sw.add(col-1);
+            wc.add(row);
+            wc.add(col-1);
+            output.add(wc);
         }
 
 
@@ -135,6 +165,7 @@ public class Board {
         if (col > 0 && row < rowEnd) {
             sw.add(row + 1);
             sw.add(col - 1);
+            output.add(sw);
         }
 
 
@@ -142,18 +173,21 @@ public class Board {
         if (col < colEnd) {
             ec.add(row);
             ec.add(col+1);
+            output.add(ec);
         }
 
         //se
         if (row < rowEnd && col < colEnd) {
             se.add(row+1);
             se.add(col+1);
+            output.add(se);
         }
 
         //sc
         if (row < rowEnd) {
             sc.add(row+1);
             sc.add(col);
+            output.add(sc);
         }
 
 
@@ -162,12 +196,14 @@ public class Board {
         if (row > 0 && col > 0) {
             nw.add(row-1);
             nw.add(col-1);
+            output.add(nw);
         }
 
         //nc
         if (row > 0) {
             nc.add(row-1);
             nc.add(col);
+            output.add(nc);
         }
 
 
@@ -175,6 +211,7 @@ public class Board {
         if (row > 0 && col < colEnd) {
           ne.add(row - 1);
           ne.add(col + 1);
+          output.add(ne);
         }
 
         return output;
