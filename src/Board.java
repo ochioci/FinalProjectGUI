@@ -12,7 +12,7 @@ public class Board {
         populate();
     }
 
-    private void populate() {
+    public void populate() {
         for (int i = 0; i < width; i++) {
             for (int n = 0; n < height; n++) {
                 tiles[i][n] = randomLetter();
@@ -70,7 +70,8 @@ public class Board {
         int currentRow = usedTiles.get(usedTiles.size()-1).get(0);
         int currentCol = usedTiles.get(usedTiles.size()-1).get(1);
 
-        String nextLetter = target.substring(progress.length(), progress.length()+1); //the letter being searched for in this round of the program
+        //the letter being searched for in this round of the program
+        String nextLetter = target.substring(progress.length(), progress.length()+1);
 
         ArrayList<ArrayList<Integer>> nextTilesRaw = getAdjacentTiles(currentRow, currentCol);
         ArrayList<ArrayList<Integer>> nextTiles = new ArrayList<ArrayList<Integer>>();
@@ -90,12 +91,12 @@ public class Board {
             if (passing) {nextTiles.add(nextTilesRaw.get(i));}
         }
 
-        System.out.println();
-        System.out.println("current location: " + currentRow + ", " + currentCol);
-        System.out.println("current progress: " + progress);
-        System.out.println("adjacent tiles: " + nextTilesRaw);
-        System.out.println("possible next tiles: " + nextTiles);
-        System.out.println();
+//        System.out.println();
+//        System.out.println("current location: " + currentRow + ", " + currentCol);
+//        System.out.println("current progress: " + progress);
+//        System.out.println("adjacent tiles: " + nextTilesRaw);
+//        System.out.println("possible next tiles: " + nextTiles);
+//        System.out.println();
 
         //the issue lies in determining all of the next possible tiles! for some reason certain tiles are filtered out when they should not be, causing false negatives
         //okay apparently the tiles to the left and right in the same row are filtered out for some reason. everything else works as intended
