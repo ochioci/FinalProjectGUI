@@ -1,7 +1,22 @@
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Scanner;
 public class Runner {
-    private static Game myGame = new Game();
-    public static void main (String[] args) {
+    private static Game myGame;
+
+    static {
+        try {
+            myGame = new Game();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    public Runner() throws FileNotFoundException {
+    }
+
+    public static void main (String[] args) throws IOException {
         menu();
     }
 
@@ -10,7 +25,7 @@ public class Runner {
         System.out.println(" ------------------------ ");
     }
 
-    public static void menu() {
+    public static void menu() throws IOException {
         Scanner choiceScanner = new Scanner(System.in);
         System.out.println("Would you like to...");
         System.out.println("Start a [n]ew game?");

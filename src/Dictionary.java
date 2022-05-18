@@ -1,6 +1,35 @@
+import java.io.*;
+import java.util.ArrayList;
+
 public class Dictionary {
-    public static boolean checkWord (String word) {
-        return true;
-        //tk: use this https://github.com/dwyl/english-words/blob/master/words.txt
+
+    private static File db;
+    private static BufferedReader br;
+    public Dictionary (String dbName) throws FileNotFoundException {
     }
+
+    public static ArrayList<String> getListOfWords () throws IOException {
+        db = new File("C://Users/BT_1E10_20/IdeaProjects/Beckett Randlett/src/words.txt");
+        br = new BufferedReader(new FileReader(db));
+        String st;
+        ArrayList<String> output = new ArrayList<String>();
+        while ((st = br.readLine()) != null) {
+            output.add(st);
+        }
+        return output;
+    }
+
+    public static boolean checkWord(String query) throws IOException {
+        db = new File("C://Users/BT_1E10_20/IdeaProjects/Beckett Randlett/src/words.txt");
+        br = new BufferedReader(new FileReader(db));
+        String st;
+        while ((st = br.readLine()) != null) {
+            if(st.toLowerCase().equals(query)) {return true;}
+        }
+
+        return false;
+    }
+
+
+
 }

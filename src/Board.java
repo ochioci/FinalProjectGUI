@@ -1,3 +1,4 @@
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class Board {
@@ -10,6 +11,35 @@ public class Board {
         this.height = height;
         this.tiles = new String[width][height];
         populate();
+    }
+
+    public void smartPopulate() throws IOException {
+        //maybe use a markov chain generator of the english language to generate a more workable board?
+        ArrayList<ArrayList<Integer>> markovOdds = new ArrayList<ArrayList<Integer>>();
+        ArrayList<String> wordList = Dictionary.getListOfWords();
+
+        //data structure would be...
+        // indexes 0-25 of the outermost array correspond to the alphabet
+        //each of those indexes value is an arraylist of 26 items that also corresponds to the alphabet, only each value of those innermost items is a percentage chance of that letter following
+        //the letter indicated by the index of the outermost array
+        for (int i = 0; i < alphabet.length(); i++) {
+            ArrayList<Integer> letterOdds = new ArrayList<Integer>();
+            String currentLetter = alphabet.substring(i, i+1).toLowerCase();
+            for (int n = 0; n < alphabet.length(); n++) {
+                letterOdds.add(0);
+            }
+
+            for (int x = 0; x < wordList.size(); x++) {
+                String currentWord = wordList.get(x).toLowerCase();
+                if (Math.random() > 0.95) {
+                    if (currentWord.contains(currentLetter) && currentWord.indexOf(currentLetter) < currentWord.length()-1) { //if current letter exists in currentword but is not the last letter of the owrd
+                        //increment the appropriate index of letterOdds by 1
+                        //the appropriate index is whichever index corresponds to the letter that follows the first occurance of currentLetter in currentWord
+                    }
+                }
+            }
+            markovOdds.add(letterOdds);
+        }
     }
 
     public void populate() {
