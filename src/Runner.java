@@ -9,6 +9,8 @@ public class Runner {
             myGame = new Game();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
@@ -18,6 +20,8 @@ public class Runner {
 
     public static void main (String[] args) throws IOException {
         menu();
+//        Board testBoard = new Board(4,4);
+//        testBoard.smartPopulate();
     }
 
 

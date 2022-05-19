@@ -7,11 +7,11 @@ public class Game {
     private double timeLimit = 15.0;
     private double startTime = -1.0;
     private Board gameBoard;
-    public Game () throws FileNotFoundException {
+    public Game () throws IOException {
         gameBoard = new Board(4,4);
     }
-    public void playNewBoard() {
-        gameBoard.populate();
+    public void playNewBoard() throws IOException {
+        gameBoard.smartPopulate();
         score = 0;
         startTime = Instant.now().getEpochSecond();
     }

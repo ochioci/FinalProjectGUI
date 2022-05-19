@@ -6,11 +6,19 @@ public class Board {
     private int height;
     private String[][] tiles;
     private String alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    public Board(int width, int height) {
+    public Board(int width, int height) throws IOException {
         this.width = width;
         this.height = height;
         this.tiles = new String[width][height];
-        populate();
+        smartPopulate();
+    }
+
+    public boolean isVowel (String letter) {
+        letter = letter.toLowerCase();
+        if (letter.equals("a") || letter.equals("e") || letter.equals("i") || letter.equals("o") || letter.equals("u")) {
+            return true;
+        }
+        return false;
     }
 
     public void smartPopulate() throws IOException {
@@ -32,7 +40,16 @@ public class Board {
             for (int x = 0; x < wordList.size(); x++) {
                 String currentWord = wordList.get(x).toLowerCase();
                 if (Math.random() > 0.95) {
-                    if (currentWord.contains(currentLetter) && currentWord.indexOf(currentLetter) < currentWord.length()-1) { //if current letter exists in currentword but is not the last letter of the owrd
+                    if (currentWord.contains(currentLetter) && currentWord.indexOf(currentLetter) < currentWord.length()-1) {
+                        String subsequentLetter = currentWord.substring(currentWord.indexOf(currentLetter) + 1, currentWord.indexOf(currentLetter) + 2);
+                        int subsequentLetterCorrespondingIndex = alphabet.toLowerCase().indexOf(subsequentLetter);
+                        if (subsequentLetterCorrespondingIndex > -1 ) { //to account for dashes and other non-alphabetical characters included in valid english words
+                            letterOdds.set(subsequentLetterCorrespondingIndex, letterOdds.get(subsequentLetterCorrespondingIndex) + 1);
+                            if (isVowel(subsequentLetter)) {
+                                letterOdds.set(subsequentLetterCorrespondingIndex, letterOdds.get(subsequentLetterCorrespondingIndex) + 1000);
+                            }
+                        }
+                        //if current letter exists in currentword but is not the last letter of the owrd
                         //increment the appropriate index of letterOdds by 1
                         //the appropriate index is whichever index corresponds to the letter that follows the first occurance of currentLetter in currentWord
                     }
@@ -40,6 +57,66 @@ public class Board {
             }
             markovOdds.add(letterOdds);
         }
+
+
+//        testing
+        for (int i = 0 ; i < markovOdds.size(); i++) {
+            System.out.println("Following the letter: " + alphabet.substring(i, i+1));
+            for (int n = 0; n < markovOdds.get(i).size(); n++) {
+                System.out.println(" --" + alphabet.substring(n, n+1) + ": " + markovOdds.get(i).get(n));
+            }
+        }
+
+        for (int i = 0; i < width; i++) {
+            for (int n = 0; n < height; n++) {
+                ArrayList<String> surroundingLetters = getSurroundingLetters(i,n);
+                if (surroundingLetters.size() == 0) {
+                    tiles[i][n] = randomLetter();
+                } else {
+                    String chosenAdjacentTile = surroundingLetters.get((int)(Math.random() * surroundingLetters.size()));
+                    int chosenSeedTileIndexInAlphabet = alphabet.toLowerCase().indexOf(chosenAdjacentTile.toLowerCase());
+                    ArrayList<Integer> tileOdds = markovOdds.get(chosenSeedTileIndexInAlphabet);
+
+                    int totalTileCount = 0;
+                    for (int x = 0; x < tileOdds.size(); x++) {
+                        totalTileCount += tileOdds.get(x);
+                    }
+                    ArrayList<Double> oddsByLetter = new ArrayList<Double>();
+                    oddsByLetter.add(0.0);
+
+                    for (int x = 1; x < alphabet.length(); x++) {
+                        oddsByLetter.add(oddsByLetter.get(x-1) + ((double)tileOdds.get(x)/(double)totalTileCount));
+                    }
+
+                    Double roll = Math.random();
+                    String chosenLetter = "undecided";
+                    for (int x = 0; x < oddsByLetter.size()-1; x++) {
+                        if (roll > oddsByLetter.get(x) && roll < oddsByLetter.get(x+1)) {
+                            chosenLetter = alphabet.substring(x, x+1);
+                            //for some reason this mechanism doesn't work
+                        }
+                    }
+                    if (chosenLetter.equals("undecided")) {
+                        chosenLetter = alphabet.substring(alphabet.length()-1);
+                    }
+                    tiles[i][n] = chosenLetter;
+                }
+            }
+        }
+
+    }
+
+    public ArrayList<String> getSurroundingLetters (int row, int col) {
+        ArrayList<ArrayList<Integer>> adjTiles = getAdjacentTiles(row, col);
+        ArrayList<String> output = new ArrayList<String>();
+        for (int i = 0; i < adjTiles.size(); i++) {
+            if (tiles[adjTiles.get(i).get(0)][adjTiles.get(i).get(1)] != null) {
+                if (alphabet.indexOf(tiles[adjTiles.get(i).get(0)][adjTiles.get(i).get(1)]) > -1) {
+                    output.add(tiles[adjTiles.get(i).get(0)][adjTiles.get(i).get(1)]);
+                }
+            }
+        }
+        return output;
     }
 
     public void populate() {
@@ -65,6 +142,7 @@ public class Board {
     }
 
     public boolean validateWord(String word) {
+        word = word.toUpperCase();
         //takes a word, sees if it can be found within the board
         ArrayList<ArrayList<Integer>> roots = new ArrayList<ArrayList<Integer>>(); //all possible beginnings of word
 

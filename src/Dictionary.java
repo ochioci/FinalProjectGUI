@@ -24,7 +24,7 @@ public class Dictionary {
         br = new BufferedReader(new FileReader(db));
         String st;
         while ((st = br.readLine()) != null) {
-            if(st.toLowerCase().equals(query)) {return true;}
+            if(st.toLowerCase().equals(query.toLowerCase())) {return true;}
         }
 
         return false;
