@@ -46,7 +46,7 @@ public class Board {
                         if (subsequentLetterCorrespondingIndex > -1 ) { //to account for dashes and other non-alphabetical characters included in valid english words
                             letterOdds.set(subsequentLetterCorrespondingIndex, letterOdds.get(subsequentLetterCorrespondingIndex) + 1);
                             if (isVowel(subsequentLetter)) {
-                                letterOdds.set(subsequentLetterCorrespondingIndex, letterOdds.get(subsequentLetterCorrespondingIndex) + 1000);
+                                letterOdds.set(subsequentLetterCorrespondingIndex, letterOdds.get(subsequentLetterCorrespondingIndex) + 2); //boost the odds a vowel will be chosen
                             }
                         }
                         //if current letter exists in currentword but is not the last letter of the owrd
@@ -60,12 +60,12 @@ public class Board {
 
 
 //        testing
-        for (int i = 0 ; i < markovOdds.size(); i++) {
-            System.out.println("Following the letter: " + alphabet.substring(i, i+1));
-            for (int n = 0; n < markovOdds.get(i).size(); n++) {
-                System.out.println(" --" + alphabet.substring(n, n+1) + ": " + markovOdds.get(i).get(n));
-            }
-        }
+//        for (int i = 0 ; i < markovOdds.size(); i++) {
+//            System.out.println("Following the letter: " + alphabet.substring(i, i+1));
+//            for (int n = 0; n < markovOdds.get(i).size(); n++) {
+//                System.out.println(" --" + alphabet.substring(n, n+1) + ": " + markovOdds.get(i).get(n));
+//            }
+//        }
 
         for (int i = 0; i < width; i++) {
             for (int n = 0; n < height; n++) {
@@ -76,30 +76,36 @@ public class Board {
                     String chosenAdjacentTile = surroundingLetters.get((int)(Math.random() * surroundingLetters.size()));
                     int chosenSeedTileIndexInAlphabet = alphabet.toLowerCase().indexOf(chosenAdjacentTile.toLowerCase());
                     ArrayList<Integer> tileOdds = markovOdds.get(chosenSeedTileIndexInAlphabet);
+//                    System.out.println("Chosen adjacent tile: " + chosenAdjacentTile);
+//                    System.out.println("Chosen adj tile index in alphabet:" + chosenSeedTileIndexInAlphabet);
 
-                    int totalTileCount = 0;
+                    //these fields seem correct
+
+                    int tileOddsTotal = 0;
+                    for (int z = 0; z < tileOdds.size(); z++) {
+                        tileOddsTotal += tileOdds.get(z);
+                    }
+
+
+                    ArrayList<Double> tilePercentageOdds = new ArrayList<Double>();
+//                    System.out.println("Odds for the letter to follow: " +chosenAdjacentTile);
                     for (int x = 0; x < tileOdds.size(); x++) {
-                        totalTileCount += tileOdds.get(x);
-                    }
-                    ArrayList<Double> oddsByLetter = new ArrayList<Double>();
-                    oddsByLetter.add(0.0);
-
-                    for (int x = 1; x < alphabet.length(); x++) {
-                        oddsByLetter.add(oddsByLetter.get(x-1) + ((double)tileOdds.get(x)/(double)totalTileCount));
+                        tilePercentageOdds.add( ((double)tileOdds.get(x) / (double)tileOddsTotal) );
+//                        System.out.println(alphabet.charAt(x) + " -- " + (100 * ((double)tileOdds.get(x) / (double)tileOddsTotal)) + "%");
                     }
 
-                    Double roll = Math.random();
-                    String chosenLetter = "undecided";
-                    for (int x = 0; x < oddsByLetter.size()-1; x++) {
-                        if (roll > oddsByLetter.get(x) && roll < oddsByLetter.get(x+1)) {
-                            chosenLetter = alphabet.substring(x, x+1);
-                            //for some reason this mechanism doesn't work
+                    double roll = Math.random();
+                    double sum = 0;
+
+                    for (int v = 0; v < tilePercentageOdds.size()-1; v++) {
+                        if (roll < sum + tilePercentageOdds.get(v)) {
+                            tiles[i][n] = alphabet.substring(v, v+1);
+                            break;
                         }
+//                        System.out.println(sum);
+                        sum += tilePercentageOdds.get(v);
                     }
-                    if (chosenLetter.equals("undecided")) {
-                        chosenLetter = alphabet.substring(alphabet.length()-1);
-                    }
-                    tiles[i][n] = chosenLetter;
+
                 }
             }
         }
