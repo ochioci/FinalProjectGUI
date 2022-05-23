@@ -8,7 +8,7 @@ public class Game {
     Dictionary myDict = new Dictionary("C://Users/BT_1E10_20/IdeaProjects/Beckett Randlett/src/words.txt");
     private int score = 0;
     private ArrayList<String> wordsPlayed = new ArrayList<String>();
-    private double timeLimit = 90.0;
+    private double timeLimit = 30.0;
     private double startTime = -1.0;
     private Board gameBoard;
     public Game () throws IOException {
@@ -21,13 +21,25 @@ public class Game {
         startTime = Instant.now().getEpochSecond();
     }
 
+
+    public void displayEndgameStats() {
+        wordsPlayed.sort((s1, s2) -> s2.length() - s1.length());
+        for (int i = 0; i < wordsPlayed.size(); i++) {
+            System.out.println(wordsPlayed.get(i) + " -- " + getPointValue(wordsPlayed.get(i)));
+        }
+    }
+
     public void displayBoard() {
         gameBoard.printBoard();
     }
 
     public int playWord(String word) throws IOException { //REMEMBER TO INCLUDE CLAUSE FOR IF THE WORD HAS ALREADY BEEN PLAYED
         if (Instant.now().getEpochSecond() > startTime + timeLimit) {
+            Leaderboard.addScore(score);
             return -1; //out of time
+        }
+        if (wordAlreadyPlayed(word)) {
+            return -3; //word already played in this game
         }
         if (!gameBoard.validateWord(word)) {
             return -2; // not found on board
@@ -40,6 +52,16 @@ public class Game {
             return 0; //invalid word - not in dictionary;
         }
 
+    }
+
+    public boolean wordAlreadyPlayed(String word) {
+        for (int i = 0; i < wordsPlayed.size(); i++) {
+            if (wordsPlayed.get(i).toLowerCase().equals(word.toLowerCase())) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public void displayTimeRemaining() {

@@ -3,7 +3,7 @@ import java.io.IOException;
 import java.util.Scanner;
 public class Runner {
     private static Game myGame;
-
+    public static String playerName = "anonymous";
     static {
         try {
             myGame = new Game();
@@ -20,9 +20,12 @@ public class Runner {
 
     public static void main (String[] args) throws IOException {
         menu();
+
+
 //        Board testBoard = new Board(4,4);
 //        testBoard.smartPopulate();
     }
+
 
 
     public static void dash() {
@@ -35,9 +38,13 @@ public class Runner {
         System.out.println("Start a [n]ew game?");
         System.out.println("Replay the [s]ame board?");
         System.out.println("[q]uit?");
+        System.out.println("[v]iew the leaderboard");
         String choice = choiceScanner.nextLine();
         Scanner wordInputScanner = new Scanner(System.in);
-        if (choice.equals("n")) {
+        if (choice.equals("v")) {
+            Leaderboard.displayHighScores();
+        }
+        else if (choice.equals("n")) {
             myGame.playNewBoard();
             boolean playing = true;
             while (playing) {
@@ -49,6 +56,7 @@ public class Runner {
                     dash();
                     System.out.println("Sorry! Time's up");
                     playing = false;
+                    myGame.displayEndgameStats();
                 } else if (result == 0) {
                     System.out.println("Sorry! Invalid word");
                     myGame.displayTimeRemaining();
@@ -57,6 +65,9 @@ public class Runner {
                     myGame.displayTimeRemaining();
                 } else if (result == -2) {
                     System.out.println("Sorry! That word was not found on the board");
+                    myGame.displayTimeRemaining();
+                } else if (result == -3) {
+                    System.out.println("Hey! you already played that word");
                     myGame.displayTimeRemaining();
                 }
             }
@@ -75,6 +86,7 @@ public class Runner {
                     dash();
                     System.out.println("Sorry! Time's up");
                     playing = false;
+                    myGame.displayEndgameStats();
                 } else if (result == 0) {
                     System.out.println("Sorry! Invalid word");
                     myGame.displayTimeRemaining();
@@ -83,6 +95,9 @@ public class Runner {
                     myGame.displayTimeRemaining();
                 } else if (result == -2) {
                     System.out.println("Sorry! That word was not found on the board");
+                    myGame.displayTimeRemaining();
+                } else if (result == -3) {
+                    System.out.println("Hey! you already played that word");
                     myGame.displayTimeRemaining();
                 }
             }
