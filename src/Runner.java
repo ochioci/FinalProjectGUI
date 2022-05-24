@@ -19,6 +19,7 @@ public class Runner {
     }
 
     public static void main (String[] args) throws IOException {
+        Leaderboard.addScore(1000);
         menu();
 
 
@@ -43,6 +44,8 @@ public class Runner {
         Scanner wordInputScanner = new Scanner(System.in);
         if (choice.equals("v")) {
             Leaderboard.displayHighScores();
+            menu();
+
         }
         else if (choice.equals("n")) {
             myGame.playNewBoard();

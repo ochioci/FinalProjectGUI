@@ -44,9 +44,9 @@ public class Board {
                         String subsequentLetter = currentWord.substring(currentWord.indexOf(currentLetter) + 1, currentWord.indexOf(currentLetter) + 2);
                         int subsequentLetterCorrespondingIndex = alphabet.toLowerCase().indexOf(subsequentLetter);
                         if (subsequentLetterCorrespondingIndex > -1 ) { //to account for dashes and other non-alphabetical characters included in valid english words
-                            letterOdds.set(subsequentLetterCorrespondingIndex, letterOdds.get(subsequentLetterCorrespondingIndex) + 1);
+                            letterOdds.set(subsequentLetterCorrespondingIndex, letterOdds.get(subsequentLetterCorrespondingIndex) + 2);
                             if (isVowel(subsequentLetter)) {
-                                letterOdds.set(subsequentLetterCorrespondingIndex, letterOdds.get(subsequentLetterCorrespondingIndex) + 2); //boost the odds a vowel will be chosen
+                                letterOdds.set(subsequentLetterCorrespondingIndex, letterOdds.get(subsequentLetterCorrespondingIndex) + 1); //boost the odds a vowel will be chosen
                             }
                         }
                         //if current letter exists in currentword but is not the last letter of the owrd

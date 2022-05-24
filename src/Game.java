@@ -8,7 +8,7 @@ public class Game {
     Dictionary myDict = new Dictionary("C://Users/BT_1E10_20/IdeaProjects/Beckett Randlett/src/words.txt");
     private int score = 0;
     private ArrayList<String> wordsPlayed = new ArrayList<String>();
-    private double timeLimit = 30.0;
+    private double timeLimit = 60.0;
     private double startTime = -1.0;
     private Board gameBoard;
     public Game () throws IOException {
