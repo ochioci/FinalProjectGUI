@@ -19,7 +19,6 @@ public class Runner {
     }
 
     public static void main (String[] args) throws IOException {
-        Leaderboard.addScore(1000);
         menu();
 
 
@@ -40,8 +39,17 @@ public class Runner {
         System.out.println("Replay the [s]ame board?");
         System.out.println("[q]uit?");
         System.out.println("[v]iew the leaderboard");
+        System.out.println("[s]et your username to be shown in the leaderboard");
         String choice = choiceScanner.nextLine();
         Scanner wordInputScanner = new Scanner(System.in);
+        if (choice.equals("s")) {
+            Scanner nameScanner = new Scanner(System.in);
+            System.out.println("Your current username is: " + playerName + "\n Please input your new username...");
+            playerName = nameScanner.nextLine();
+            System.out.println("Your username is now: " + playerName + " !");
+
+
+        }
         if (choice.equals("v")) {
             Leaderboard.displayHighScores();
             menu();
