@@ -43,14 +43,15 @@ public class Runner {
         String choice = choiceScanner.nextLine();
         Scanner wordInputScanner = new Scanner(System.in);
         if (choice.equals("s")) {
-            Scanner nameScanner = new Scanner(System.in);
-            System.out.println("Your current username is: " + playerName + "\n Please input your new username...");
-            playerName = nameScanner.nextLine();
-            System.out.println("Your username is now: " + playerName + " !");
 
+            System.out.println("Your current username is: " + playerName + "\n Please input your new username...");
+            playerName = wordInputScanner.nextLine();
+            System.out.println("Your username is now: " + playerName + " !");
+            choice = "";
+            menu();
 
         }
-        if (choice.equals("v")) {
+        else if (choice.equals("v")) {
             Leaderboard.displayHighScores();
             menu();
 
