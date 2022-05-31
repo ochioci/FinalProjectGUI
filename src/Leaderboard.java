@@ -4,7 +4,7 @@ import java.util.ArrayList;
 public class Leaderboard {
 
     public static void displayHighScores() throws IOException {
-        File db = new File("C://Users/BT_1E10_20/IdeaProjects/Beckett Randlett/src/leaderboard.txt");
+        File db = new File("src/leaderboard.txt");
         BufferedReader br = new BufferedReader(new FileReader(db));
         String st;
         int count = 0;
@@ -16,7 +16,7 @@ public class Leaderboard {
     }
 
     public static void addScore(int score) throws IOException {
-        File db = new File("C://Users/BT_1E10_20/IdeaProjects/Beckett Randlett/src/leaderboard.txt");
+        File db = new File("src/leaderboard.txt");
         BufferedReader br = new BufferedReader(new FileReader(db));
         String st;
         ArrayList<String> entries = new ArrayList<String>();
@@ -27,7 +27,7 @@ public class Leaderboard {
 
         }
 
-        entries.add(Runner.playerName + " - " + score);
+        entries.add(PlayWordHunt.playerName + " - " + score);
 
 //        for (String e : entries) {
 //            System.out.println(Integer.parseInt(e.substring(e.indexOf("-")+2)));
@@ -58,7 +58,7 @@ public class Leaderboard {
 //        }
 //        System.out.println(entries);
         try {
-            FileWriter myWriter = new FileWriter("C://Users/BT_1E10_20/IdeaProjects/Beckett Randlett/src/leaderboard.txt");
+            FileWriter myWriter = new FileWriter("src/leaderboard.txt");
             String toWrite = "";
             for (int i = 0; i < entries.size(); i++) {
                 toWrite = entries.get(i) + "\n" + toWrite;

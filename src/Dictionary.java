@@ -9,7 +9,7 @@ public class Dictionary {
     }
 
     public static ArrayList<String> getListOfWords () throws IOException {
-        db = new File("C://Users/BT_1E10_20/IdeaProjects/Beckett Randlett/src/words.txt");
+        db = new File("src/words.txt");
         br = new BufferedReader(new FileReader(db));
         String st;
         ArrayList<String> output = new ArrayList<String>();
@@ -20,7 +20,7 @@ public class Dictionary {
     }
 
     public static boolean checkWord(String query) throws IOException {
-        db = new File("C://Users/BT_1E10_20/IdeaProjects/Beckett Randlett/src/words.txt");
+        db = new File("src/words.txt");
         br = new BufferedReader(new FileReader(db));
         String st;
         while ((st = br.readLine()) != null) {

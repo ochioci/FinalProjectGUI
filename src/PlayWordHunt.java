@@ -1,7 +1,7 @@
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Scanner;
-public class Runner {
+public class PlayWordHunt {
     private static Game myGame;
     public static String playerName = "anonymous";
     static {
@@ -15,7 +15,7 @@ public class Runner {
     }
 
 
-    public Runner() throws FileNotFoundException {
+    public PlayWordHunt() throws FileNotFoundException {
     }
 
     public static void main (String[] args) throws IOException {
