@@ -190,7 +190,6 @@ public class Board {
         ArrayList<ArrayList<Integer>> nextTilesRaw = getAdjacentTiles(currentRow, currentCol);
         ArrayList<ArrayList<Integer>> nextTiles = new ArrayList<ArrayList<Integer>>();
         //add all tiles from nextTilesRaw not found in usedTiled to nextTiles
-//        System.out.println("next tiles raw: " + nextTilesRaw);
         for (int i = 0; i < nextTilesRaw.size(); i++) {
             boolean passing = true;
 
@@ -201,19 +200,9 @@ public class Board {
                 }
 
             }
-            //tiles[nextTilesRaw.get(i).get(0)][nextTilesRaw.get(i).get(1)].toUpperCase().equals(nextLetter.toUpperCase())
+            
             if (passing) {nextTiles.add(nextTilesRaw.get(i));}
         }
-
-//        System.out.println();
-//        System.out.println("current location: " + currentRow + ", " + currentCol);
-//        System.out.println("current progress: " + progress);
-//        System.out.println("adjacent tiles: " + nextTilesRaw);
-//        System.out.println("possible next tiles: " + nextTiles);
-//        System.out.println();
-
-        //the issue lies in determining all of the next possible tiles! for some reason certain tiles are filtered out when they should not be, causing false negatives
-        //okay apparently the tiles to the left and right in the same row are filtered out for some reason. everything else works as intended
 
         ArrayList<Boolean> results = new ArrayList<Boolean>();
         for (int i = 0; i < nextTiles.size(); i++) {
@@ -233,11 +222,6 @@ public class Board {
                 results.add(recursiveValidationHelper(progress + nextLetter, target, usedTilesCopy));
             }
         }
-//        System.out.println();
-//        System.out.println("target: " + target);
-//        System.out.println("progress: " + progress);
-//        System.out.println("next tiles: " + nextTiles);
-//        System.out.println();
 
         for (int i = 0; i < results.size(); i++) {
             if (results.get(i)) {
