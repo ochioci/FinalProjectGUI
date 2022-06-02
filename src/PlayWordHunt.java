@@ -39,10 +39,10 @@ public class PlayWordHunt {
         System.out.println("Replay the [s]ame board?");
         System.out.println("[q]uit?");
         System.out.println("[v]iew the leaderboard");
-        System.out.println("[s]et your username to be shown in the leaderboard");
+        System.out.println("set your [u]sername to be shown in the leaderboard");
         String choice = choiceScanner.nextLine();
         Scanner wordInputScanner = new Scanner(System.in);
-        if (choice.equals("s")) {
+        if (choice.equals("u")) {
 
             System.out.println("Your current username is: " + playerName + "\n Please input your new username...");
             playerName = wordInputScanner.nextLine();
