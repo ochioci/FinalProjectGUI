@@ -147,6 +147,10 @@ public class Board {
         }
     }
 
+    public String[][] getBoard() {
+        return tiles;
+    }
+
     public boolean validateWord(String word) {
         word = word.toUpperCase();
         //takes a word, sees if it can be found within the board

@@ -33,6 +33,14 @@ public class Game {
         gameBoard.printBoard();
     }
 
+    public String[][] getBoard() {
+        return gameBoard.getBoard();
+    }
+
+    public int getScore() {
+        return score;
+    }
+
     public int playWord(String word) throws IOException { //REMEMBER TO INCLUDE CLAUSE FOR IF THE WORD HAS ALREADY BEEN PLAYED
         if (Instant.now().getEpochSecond() > startTime + timeLimit) {
             Leaderboard.addScore(score);
@@ -66,6 +74,10 @@ public class Game {
 
     public void displayTimeRemaining() {
         System.out.println("You have " + (startTime + timeLimit - Instant.now().getEpochSecond()) + " time remaining.");
+    }
+
+    public double getTimeLeft() {
+        return startTime + timeLimit - Instant.now().getEpochSecond();
     }
 
     public void displayScore () {
