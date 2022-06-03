@@ -20,9 +20,7 @@ public class PlayWordHuntGUI {
     }
 
     public static void main (String[] args) throws IOException {
-        wordHuntGUI();
-//        wordHuntGUI();
-//        menu();
+        menu();
     }
 
 
@@ -30,17 +28,18 @@ public class PlayWordHuntGUI {
     public static void wordHuntGUI()  throws IOException {
 //        menu();
         JFrame frame = new JFrame("Word Hunt");
-
+        frame.toFront();
+        frame.repaint();
         frame.setLayout(new GridLayout(8, 4, 10, 10));
         frame.setSize(400,800);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 
 
         myGame = new Game();
 
         myGame.playNewBoard();
-        myGame.displayBoard();
+//        myGame.displayBoard();
         String[][] board = myGame.getBoard();
 //        JPanel boardPanel = new JPanel();
 //        int boardPanelWidth = 400;
@@ -119,7 +118,6 @@ public class PlayWordHuntGUI {
             @Override
             public void keyPressed(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-                    System.out.println(entryField.getText());
                     try {
                         int result = myGame.playWord(entryField.getText());
                         scoreLabel.setText(String.valueOf("Score: " + myGame.getScore()));
@@ -127,6 +125,7 @@ public class PlayWordHuntGUI {
                             wordStatus.setText("Game Over!");
                             timeRemaining.setVisible(false);
                             entryField.setVisible(false);
+//                            menu();
                         }
                         if (result == -3) {
                             wordStatus.setText("You already played " + "'" + entryField.getText() + "'");
@@ -175,7 +174,7 @@ public class PlayWordHuntGUI {
         Scanner choiceScanner = new Scanner(System.in);
         System.out.println("Would you like to...");
         System.out.println("Start a [n]ew game?");
-        System.out.println("Replay the [s]ame board?");
+//        System.out.println("Replay the [s]ame board?");
         System.out.println("[q]uit?");
         System.out.println("[v]iew the leaderboard");
         System.out.println("set your [u]sername to be shown in the leaderboard");
@@ -196,67 +195,44 @@ public class PlayWordHuntGUI {
 
         }
         else if (choice.equals("n")) {
-            myGame.playNewBoard();
-            boolean playing = true;
-            while (playing) {
-                myGame.displayBoard();
-                System.out.println("Input a word > ");
-                String inWord = wordInputScanner.nextLine();
-                int result = myGame.playWord(inWord);
-                if (result == -1) {
-                    dash();
-                    System.out.println("Sorry! Time's up");
-                    playing = false;
-                    myGame.displayEndgameStats();
-                } else if (result == 0) {
-                    System.out.println("Sorry! Invalid word");
-                    myGame.displayTimeRemaining();
-                } else if (result == 1) {
-                    System.out.println("Nice!");
-                    myGame.displayTimeRemaining();
-                } else if (result == -2) {
-                    System.out.println("Sorry! That word was not found on the board");
-                    myGame.displayTimeRemaining();
-                } else if (result == -3) {
-                    System.out.println("Hey! you already played that word");
-                    myGame.displayTimeRemaining();
-                }
-            }
-            myGame.displayScore();
-            dash();
+            wordHuntGUI();
             menu();
-        } else if (choice.equals("s")) {
-            myGame.playLastBoard();
-            boolean playing = true;
-            while (playing) {
-                myGame.displayBoard();
-                System.out.println("Input a word > ");
-                String inWord = wordInputScanner.nextLine();
-                int result = myGame.playWord(inWord);
-                if (result == -1) {
-                    dash();
-                    System.out.println("Sorry! Time's up");
-                    playing = false;
-                    myGame.displayEndgameStats();
-                } else if (result == 0) {
-                    System.out.println("Sorry! Invalid word");
-                    myGame.displayTimeRemaining();
-                } else if (result == 1) {
-                    System.out.println("Nice!");
-                    myGame.displayTimeRemaining();
-                } else if (result == -2) {
-                    System.out.println("Sorry! That word was not found on the board");
-                    myGame.displayTimeRemaining();
-                } else if (result == -3) {
-                    System.out.println("Hey! you already played that word");
-                    myGame.displayTimeRemaining();
-                }
-            }
-            myGame.displayScore();
-            dash();
-            menu();
-        } else if (choice.equals("q")) {
+        }
+//        else if (choice.equals("s")) {
+//            myGame.playLastBoard();
+//            boolean playing = true;
+//            while (playing) {
+//                myGame.displayBoard();
+//                System.out.println("Input a word > ");
+//                String inWord = wordInputScanner.nextLine();
+//                int result = myGame.playWord(inWord);
+//                if (result == -1) {
+//                    dash();
+//                    System.out.println("Sorry! Time's up");
+//                    playing = false;
+//                    myGame.displayEndgameStats();
+//                } else if (result == 0) {
+//                    System.out.println("Sorry! Invalid word");
+//                    myGame.displayTimeRemaining();
+//                } else if (result == 1) {
+//                    System.out.println("Nice!");
+//                    myGame.displayTimeRemaining();
+//                } else if (result == -2) {
+//                    System.out.println("Sorry! That word was not found on the board");
+//                    myGame.displayTimeRemaining();
+//                } else if (result == -3) {
+//                    System.out.println("Hey! you already played that word");
+//                    myGame.displayTimeRemaining();
+//                }
+//            }
+//            myGame.displayScore();
+//            dash();
+//            menu();
+//        }
+        else if (choice.equals("q")) {
+            System.exit(0);
             return;
+
         }
         else {
             System.out.println("Invalid Choice!");

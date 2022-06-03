@@ -27,7 +27,7 @@ public class Leaderboard {
 
         }
 
-        entries.add(PlayWordHunt.playerName + " - " + score);
+        entries.add(PlayWordHuntGUI.playerName + " - " + score);
 
 //        for (String e : entries) {
 //            System.out.println(Integer.parseInt(e.substring(e.indexOf("-")+2)));
