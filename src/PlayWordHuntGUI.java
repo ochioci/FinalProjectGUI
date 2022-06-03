@@ -5,8 +5,10 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Scanner;
 public class PlayWordHuntGUI {
+//    public static ArrayList<ArrayList<Integer>> lastPathFound = new ArrayList<ArrayList<Integer>>();
     private static Game myGame;
     public static String playerName = "anonymous";
     static {
@@ -117,6 +119,7 @@ public class PlayWordHuntGUI {
 
             @Override
             public void keyPressed(KeyEvent e) {
+//                System.out.println(lastPathFound);
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
                     try {
                         int result = myGame.playWord(entryField.getText());

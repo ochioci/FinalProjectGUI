@@ -151,6 +151,7 @@ public class Board {
         return tiles;
     }
 
+
     public boolean validateWord(String word) {
         word = word.toUpperCase();
         //takes a word, sees if it can be found within the board
@@ -229,6 +230,7 @@ public class Board {
 
         for (int i = 0; i < results.size(); i++) {
             if (results.get(i)) {
+//                PlayWordHuntGUI.lastPathFound = usedTiles;
                 return true;
             }
         }
