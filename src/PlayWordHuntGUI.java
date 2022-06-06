@@ -48,7 +48,7 @@ public class PlayWordHuntGUI {
 //        int boardPanelHeight = 400;
 
 //        boardPanel.setSize(boardPanelWidth, boardPanelHeight);
-
+        JLabel[][] tiles = new JLabel[4][4];
         Font tileFont = new Font("SansSerif", Font.BOLD, 30);
         for (int i = 0; i < board.length; i++) {
             JPanel rowPanel = new JPanel();
@@ -60,7 +60,7 @@ public class PlayWordHuntGUI {
                 tileLabel.setOpaque(true);
                 tileLabel.setBackground(Color.ORANGE);
                 tileLabel.setFont(tileFont);
-
+                tiles[i][n] = tileLabel;
                 rowPanel.add(tileLabel);
 
             }
@@ -115,6 +115,13 @@ public class PlayWordHuntGUI {
                     timeRemaining.setVisible(false);
                 }
                 timeRemaining.setText(String.valueOf(myGame.getTimeLeft()) + " seconds remaining");
+
+
+
+
+
+
+
             }
 
             @Override
@@ -140,7 +147,7 @@ public class PlayWordHuntGUI {
                             wordStatus.setText("'" + entryField.getText() + "'" + " is not a word");
                         }
                         if (result == 1) {
-                            wordStatus.setText("Nice!");
+                            wordStatus.setText("Nice! " +  Game.getPointValue(entryField.getText()) + " points for '" + entryField.getText() + "'");
                         }
 //                        wordStatus.setText(String.valueOf(result));
                     } catch (IOException ex) {
@@ -148,6 +155,27 @@ public class PlayWordHuntGUI {
                     }
                     entryField.setText("");
                 }
+
+//                String typed = entryField.getText();
+
+//                printArr(frame.getComponents());
+
+                //frame has one child component (a JRootPane)
+//                printArr(((JRootPane)frame.getComponents()[0]).getComponents());
+
+                //JRootPane has two children, a JPanel and a JLayeredPane
+                    //this is for the JPanel, which seems to have no children
+    //               printArr(((JPanel) ((((JRootPane)frame.getComponents()[0]).getComponents()[0]))).getComponents());
+
+//                    this is for the JLayeredPane
+//                    printArr(((JLayeredPane) ((((JRootPane)frame.getComponents()[0]).getComponents()[1]))).getComponents());
+//                    the JLayeredPane seems to contain one JPanel
+//                    this seems to be where all the actual visible things are stored
+//                     printArr(((JPanel) ( (((JLayeredPane) ((((JRootPane)frame.getComponents()[0]).getComponents()[1]))).getComponents()[0]))).getComponents());
+//         for (int i = 0; i < (((JPanel) ( (((JLayeredPane) ((((JRootPane)frame.getComponents()[0]).getComponents()[1]))).getComponents()[0]))).getComponents()).length; i++) {
+//             System.out.println(i + ":");
+//             printArr(((JPanel)((((JPanel) ( (((JLayeredPane) ((((JRootPane)frame.getComponents()[0]).getComponents()[1]))).getComponents()[0]))).getComponents()[i]))).getComponents());
+//         }
 
             }
 
@@ -162,6 +190,14 @@ public class PlayWordHuntGUI {
 
 //        frame.add(rowPanel);
         frame.setVisible(true);
+    }
+
+    public static void printArr(Object[] arr) {
+        System.out.println("[");
+        for (int i = 0; i < arr.length; i++) {
+            System.out.println(arr[i] + ", ");
+        }
+        System.out.println("]");
     }
 
     public static int getColorInt () {

@@ -90,7 +90,7 @@ public class Game {
         startTime = Instant.now().getEpochSecond();
     }
 
-    public int getPointValue(String word) {
+    public static int getPointValue(String word) {
         return (int) (100 * Math.pow(2, word.length()-2));
     }
 
